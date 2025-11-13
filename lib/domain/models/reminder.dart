@@ -25,15 +25,4 @@ class Reminder {
       status: json['status'],
     );
   }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'dateTime': dateTime.toIso8601String(),
-      'frequency': frequency,
-      'status': status,
-    };
-  }
 }

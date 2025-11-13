@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reminder_assistant/data/local_reminders.dart';
-import 'package:reminder_assistant/domain/entities/reminder.dart';
+import 'package:reminder_assistant/domain/models/reminder.dart';
 
 class ReminderProvider extends ChangeNotifier {
   bool initialLoading = true;

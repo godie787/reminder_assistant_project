@@ -20,8 +20,8 @@ class MainApp extends StatelessWidget {
       ],
       child: const MaterialApp(
           debugShowCheckedModeBanner: false,
-          // home: Scaffold(body: HomeScreen()),
-          home: Scaffold(body: LoginScreen())),
+          home: Scaffold(body: HomeScreen())),
+          // home: Scaffold(body: LoginScreen())),
     );
   }
 }
