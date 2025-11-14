@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:reminder_assistant/data/local_reminders.dart';
-import 'package:reminder_assistant/domain/models/reminder.dart';
+import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
+import 'package:reminder_assistant/domain/use_cases/reminder/reminder_use_case.dart';
 
 class ReminderProvider extends ChangeNotifier {
+  final ReminderUseCase reminderUseCase;
+
+  ReminderProvider({required this.reminderUseCase});
+
   bool initialLoading = true;
   List<Reminder> reminders = [];
 
   Future<void> fetchReminders() async {
-    await Future.delayed(const Duration(seconds: 2));
+    initialLoading = true;
+    notifyListeners();
 
-    reminders = localReminders.map((json) => Reminder.fromJson(json)).toList();
+    reminders = await reminderUseCase.getAllReminders();
 
     initialLoading = false;
     notifyListeners();

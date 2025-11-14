@@ -14,15 +14,4 @@ class Reminder {
     required this.frequency,
     required this.status,
   });
-
-  factory Reminder.fromJson(Map<String, dynamic> json) {
-    return Reminder(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      dateTime: DateTime.parse(json['dateTime']),
-      frequency: json['frequency'],
-      status: json['status'],
-    );
-  }
 }
