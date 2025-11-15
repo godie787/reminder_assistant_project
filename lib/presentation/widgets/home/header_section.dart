@@ -3,10 +3,10 @@ import 'package:reminder_assistant/presentation/widgets/home/add_or_delete_butto
 
 class HeaderSection extends StatelessWidget {
   final VoidCallback redirectToAdd;
-  final VoidCallback redirectToDelete;
+  final VoidCallback isDeletingReminder;
 
   const HeaderSection(
-      {super.key, required this.redirectToAdd, required this.redirectToDelete});
+      {super.key, required this.redirectToAdd, required this.isDeletingReminder});
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class HeaderSection extends StatelessWidget {
               imagePath: 'assets/images/deleteReminder.png',
               color: Color(0xffDE2323),
               name: 'delete',
-              onPressed: redirectToDelete,
+              onPressed: isDeletingReminder,
             ),
           ],
         ));

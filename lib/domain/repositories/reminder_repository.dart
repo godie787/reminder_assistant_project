@@ -1,7 +1,7 @@
 import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
 
 abstract class ReminderRepository {
-  Future<Reminder> getReminderById(String id);
+  Future<Reminder> getReminderById(int id);
 
   Future<List<Reminder>> getAllReminders();
 
@@ -9,5 +9,5 @@ abstract class ReminderRepository {
 
   Future<Reminder> updateReminder(Reminder reminder);
 
-  Future<Reminder> deleteReminder(String id);
+  Future<void> deleteReminder(int id);
 }

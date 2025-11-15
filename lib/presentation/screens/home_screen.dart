@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:reminder_assistant/constants/messages.dart';
+import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/home/edit_reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/home/header_section.dart';
-import 'package:reminder_assistant/presentation/widgets/home/reminder_card.dart';
+import 'package:reminder_assistant/presentation/widgets/home/home_reminders_section.dart';
+import 'package:reminder_assistant/presentation/widgets/home/read_more_button.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,17 +13,47 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reminderProvider = context.watch<ReminderProvider>();
-
+    final isEditing = reminderProvider.isEditing;
+    final isDeleting = reminderProvider.isDeleting;
+    final reminders = reminderProvider.reminders;
     void redirectToAddReminder() {
       print('redireccionar a la pantalla de agregar recordatorio');
     }
 
-    void redirectToDeleteReminder() {
-      print('redireccionar a la pantalla de eliminar recordatorio');
+    void editReminder() {
+      if (isDeleting) {
+        reminderProvider.setIsDeleting(false);
+        return;
+      }
+
+      if (isEditing) {
+        reminderProvider.setIsEditing(false);
+        return;
+      }
+      reminderProvider.setIsEditing(true);
     }
 
-    void editReminder() {
-      print('Implementar lógica para editar recordatorios');
+    void isDeletingReminder() {
+      if (isEditing) {
+        reminderProvider.setIsEditing(false);
+        return;
+      }
+
+      if (reminderProvider.isDeleting) {
+        reminderProvider.setIsDeleting(false);
+        return;
+      }
+      reminderProvider.setIsDeleting(true);
+    }
+
+    void handleCardAction(Reminder reminder) {
+      if (isEditing) {
+        print('Editar recordatorio ${reminder.title}');
+      } else if (isDeleting) {
+        reminderProvider.deleteReminder(reminder.id);
+      } else {
+        print('Leer recordatorio ${reminder.title}');
+      }
     }
 
     return Scaffold(
@@ -31,30 +62,19 @@ class HomeScreen extends StatelessWidget {
       children: [
         HeaderSection(
           redirectToAdd: redirectToAddReminder,
-          redirectToDelete: redirectToDeleteReminder,
+          isDeletingReminder: isDeletingReminder,
         ),
         SizedBox(height: 20),
         EditReminder(editReminder: editReminder),
-        Expanded(child: _builListView(reminderProvider)),
+        SizedBox(height: 10),
+        RemindersListView(
+            reminders: reminders,
+            isEditing: isEditing,
+            isDeleting: isDeleting,
+            onCardTap: handleCardAction),
+        SizedBox(height: 10),
+        ReadMoreButton(),
       ],
     )));
-  }
-
-  Widget _builListView(ReminderProvider reminderProvider) {
-    if (reminderProvider.initialLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    if (reminderProvider.reminders.isEmpty) {
-      return const Center(child: Text(Messages.emptyReminders));
-    }
-
-    return ListView.builder(
-      itemCount: reminderProvider.reminders.length,
-      itemBuilder: (context, index) {
-        final reminder = reminderProvider.reminders[index];
-        return ReminderCard(reminder: reminder);
-      },
-    );
   }
 }

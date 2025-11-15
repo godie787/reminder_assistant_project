@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_assistant/app_dependencies.dart';
-import 'package:reminder_assistant/presentation/screens/home_screen.dart';
+import 'package:reminder_assistant/config/router/app_router.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 void main() {
@@ -23,9 +23,9 @@ class MainApp extends StatelessWidget {
             ..fetchReminders(),
         ),
       ],
-      child: const MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: HomeScreen()),
+        routerConfig: appRouter,
       ),
     );
   }

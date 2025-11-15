@@ -10,6 +10,19 @@ class ReminderProvider extends ChangeNotifier {
   bool initialLoading = true;
   List<Reminder> reminders = [];
 
+  bool isEditing = false;
+  bool isDeleting = false;
+
+  void setIsEditing(bool editing) {
+    isEditing = editing;
+    notifyListeners();
+  }
+
+  void setIsDeleting(bool deleting) {
+    isDeleting = deleting;
+    notifyListeners();
+  }
+
   Future<void> fetchReminders() async {
     initialLoading = true;
     notifyListeners();
@@ -18,5 +31,10 @@ class ReminderProvider extends ChangeNotifier {
 
     initialLoading = false;
     notifyListeners();
+  }
+
+  Future<void> deleteReminder(int id) async {
+    await reminderUseCase.deleteReminder(id);
+    await fetchReminders();
   }
 }

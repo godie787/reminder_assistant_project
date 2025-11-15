@@ -9,8 +9,8 @@ class ReminderRepositoryImpl implements ReminderRepository {
 
   @override
   Future<List<Reminder>> getAllReminders() async {
-    final list = await reminderLocalDataSource.getAll();
-    return list.map((json) {
+    final reminders = await reminderLocalDataSource.getAll();
+    return reminders.map((json) {
       return Reminder(
         id: json['id'],
         title: json['title'],
@@ -23,15 +23,15 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }
 
   @override
-  Future<Reminder> getReminderById(String id) async {
-    final json = await reminderLocalDataSource.getById(id);
+  Future<Reminder> getReminderById(int id) async {
+    final reminder = await reminderLocalDataSource.getById(id);
     return Reminder(
-      id: json!['id'],
-      title: json['title'],
-      description: json['description'],
-      dateTime: DateTime.parse(json['dateTime']),
-      frequency: json['frequency'],
-      status: json['status'],
+      id: reminder!['id'],
+      title: reminder['title'],
+      description: reminder['description'],
+      dateTime: DateTime.parse(reminder['dateTime']),
+      frequency: reminder['frequency'],
+      status: reminder['status'],
     );
   }
 
@@ -46,7 +46,11 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }
 
   @override
-  Future<Reminder> deleteReminder(String id) {
-    throw UnimplementedError();
+  Future<void> deleteReminder(int id) async {
+    final reminderExists = await reminderLocalDataSource.getById(id);
+    if (reminderExists == null) {
+      throw Exception('Reminder with id $id not found');
+    }
+    await reminderLocalDataSource.deleteById(id);
   }
 }

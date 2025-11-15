@@ -6,7 +6,7 @@ class ReminderUseCase {
 
   ReminderUseCase({required this.reminderRepository});
 
-  Future<Reminder> getReminderById(String id) {
+  Future<Reminder> getReminderById(int id) {
     return reminderRepository.getReminderById(id);
   }
 
@@ -22,7 +22,7 @@ class ReminderUseCase {
     return reminderRepository.updateReminder(reminder);
   }
 
-  Future<Reminder> deleteReminder(String id) {
+  Future<void> deleteReminder(int id) {
     return reminderRepository.deleteReminder(id);
   }
 }
