@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:reminder_assistant/constants/frecuencies.dart';
 import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
+import 'package:reminder_assistant/domain/use_cases/notification/notification_use_case.dart';
 import 'package:reminder_assistant/domain/use_cases/reminder/reminder_use_case.dart';
+import 'package:reminder_assistant/infraestructure/notifications/local_notifications_service.dart';
 
 class ReminderProvider extends ChangeNotifier {
   final ReminderUseCase reminderUseCase;
+  final NotificationUseCase notificationUseCase;
 
-  ReminderProvider({required this.reminderUseCase});
+  ReminderProvider(
+      {required this.reminderUseCase, required this.notificationUseCase});
 
   bool initialLoading = true;
   List<Reminder> reminders = [];
@@ -90,7 +95,7 @@ class ReminderProvider extends ChangeNotifier {
       selectedTime.hour,
       selectedTime.minute,
     );
-    
+
     notifyListeners();
   }
 
@@ -117,8 +122,16 @@ class ReminderProvider extends ChangeNotifier {
   Future<void> fetchReminders() async {
     initialLoading = true;
     notifyListeners();
+
     await Future.delayed(Duration(milliseconds: 500));
     reminders = await reminderUseCase.getAllReminders();
+    // print("Recordatorios cargados: $reminders");
+
+    await notificationUseCase.cancelAll();
+    for (final r in reminders) {
+      // print("Programando notificación para: ${r.title}");
+      await notificationUseCase.scheduleReminder(r);
+    }
 
     initialLoading = false;
     notifyListeners();
@@ -126,11 +139,31 @@ class ReminderProvider extends ChangeNotifier {
 
   Future<void> deleteReminder(int id) async {
     await reminderUseCase.deleteReminder(id);
+    await notificationUseCase.cancelReminder(id);
     await fetchReminders();
   }
 
   Future<void> addReminder(Reminder reminder) async {
-    await reminderUseCase.createReminder(reminder);
+    final created = await reminderUseCase.createReminder(reminder);
+    // print("Recordatorio creado: $created");
+
+    await notificationUseCase.scheduleReminder(reminder);
+
+    await LocalNotificationsService().plugin.show(
+          0,
+          'Prueba de notificación',
+          'Notificación de prueba para el recordatorio',
+          NotificationDetails(
+            android: AndroidNotificationDetails(
+              'test_channel',
+              'Test Notifications',
+              channelDescription: 'Canal de prueba',
+              importance: Importance.max,
+              priority: Priority.high,
+            ),
+          ),
+        );
+
     await fetchReminders();
     resetReminderForm();
   }
@@ -151,6 +184,16 @@ class ReminderProvider extends ChangeNotifier {
 
   Future<Reminder> editReminder(Reminder reminder) async {
     final editedReminder = await reminderUseCase.updateReminder(reminder);
+
+    try {
+      // Cancela la notificación existente
+      await notificationUseCase.cancelReminder(editedReminder.id);
+      // Intenta programar la nueva notificación
+      await notificationUseCase.scheduleReminder(editedReminder);
+    } catch (e) {
+      print("Error al programar la notificación: $e");
+    }
+    print("Notificación reprogramada para el recordatorio editado.");
     await fetchReminders();
     resetReminderForm();
     return editedReminder;

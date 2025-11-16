@@ -119,12 +119,12 @@ class LoginScreen extends StatelessWidget {
                 text: 'Continuar con Google',
                 imagePath: 'assets/images/googleIcon.png',
                 onPressed: () => onPressed('google_login')),
-            LoginButton(
-                name: 'guest_login',
-                color: Color(0xFFDF9100),
-                text: 'Entrar sin cuenta',
-                imagePath: 'assets/images/loginIcon.png',
-                onPressed: () => onPressed('guest_login')),
+            // LoginButton(
+            //     name: 'guest_login',
+            //     color: Color(0xFFDF9100),
+            //     text: 'Entrar sin cuenta',
+            //     imagePath: 'assets/images/loginIcon.png',
+            //     onPressed: () => onPressed('guest_login')),
           ],
         ),
       ),
