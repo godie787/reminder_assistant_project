@@ -71,8 +71,26 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   void setSelectedHour(DateTime time) {
-    selectedTime = time;
+    selectedTime = DateTime(
+      selectedTime.year,
+      selectedTime.month,
+      selectedTime.day,
+      time.hour,
+      time.minute,
+    );
     amPm = time.hour >= 12 ? 'PM' : 'AM';
+    notifyListeners();
+  }
+
+  void setSelectedDate(DateTime date) {
+    selectedTime = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      selectedTime.hour,
+      selectedTime.minute,
+    );
+    
     notifyListeners();
   }
 
