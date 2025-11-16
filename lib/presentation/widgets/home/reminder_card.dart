@@ -64,16 +64,22 @@ class ReminderCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Container(
+                    Container(
                     margin: const EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      (reminder!.frequency).toUpperCase(),
+                    child: Center(
+                      child: Text(
+                      reminder!.frequency.toUpperCase() +
+                        (reminder!.frequency.toLowerCase() == 'semanal'
+                          ? ' (${reminder!.selectedDays.join(', ')})'
+                          : ''),
                       style: TextStyle(
                         fontSize: 18,
                         color: Color(0xFFFFFFFF),
+                        fontWeight: FontWeight.w500,
+                      ),
                       ),
                     ),
-                  ),
+                    ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 10),
                     child: Center(

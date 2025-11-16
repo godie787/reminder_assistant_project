@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SaveButton extends StatelessWidget {
-  const SaveButton({super.key});
+  final VoidCallback saveReminder;
+  const SaveButton({super.key, required this.saveReminder});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +11,7 @@ class SaveButton extends StatelessWidget {
         height: 74,
         width: double.infinity,
         child: ElevatedButton(
-            onPressed: () {},
+            onPressed: saveReminder,
             style: ElevatedButton.styleFrom(
               backgroundColor: Color(0xFF26C46C),
             ),

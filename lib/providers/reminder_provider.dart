@@ -10,7 +10,7 @@ class ReminderProvider extends ChangeNotifier {
 
   bool initialLoading = true;
   List<Reminder> reminders = [];
-  List<String> selectedDays = ['Lunes'];
+  List<String> selectedDays = [];
 
   bool isEditing = false;
   bool isDeleting = false;
@@ -18,6 +18,18 @@ class ReminderProvider extends ChangeNotifier {
   String frecuency = Frecuencies.unique;
   DateTime selectedTime = DateTime.now();
   String amPm = DateTime.now().hour >= 12 ? 'PM' : 'AM';
+  String title = '';
+  String description = '';
+
+  void setTitle(String value) {
+    title = value;
+    notifyListeners();
+  }
+
+  void setDescription(String value) {
+    description = value;
+    notifyListeners();
+  }
 
   void handleDaySelection(String day) {
     if (selectedDays.contains(day)) {
@@ -54,12 +66,29 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetReminderForm() {
+    title = '';
+    description = '';
+    frecuency = Frecuencies.unique;
+    selectedTime = DateTime.now();
+    amPm = selectedTime.hour >= 12 ? 'PM' : 'AM';
+    selectedDays.clear();
+    notifyListeners();
+  }
+
+  void resetAllStates() {
+    isAdding = false;
+    isEditing = false;
+    isDeleting = false;
+    notifyListeners();
+  }
+
   Future<void> fetchReminders() async {
     initialLoading = true;
     notifyListeners();
-
+    await Future.delayed(Duration(milliseconds: 500)); // Simulate loading delay
     reminders = await reminderUseCase.getAllReminders();
-
+    
     initialLoading = false;
     notifyListeners();
   }
@@ -70,7 +99,10 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   Future<void> addReminder(Reminder reminder) async {
+    print(
+        'Adding Reminder: ${reminder.title}, ${reminder.description}, ${reminder.frequency}, ${reminder.dateTime}, ${reminder.selectedDays}, ${reminder.status}');
     await reminderUseCase.createReminder(reminder);
     await fetchReminders();
+    resetReminderForm();
   }
 }

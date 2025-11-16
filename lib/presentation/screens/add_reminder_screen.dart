@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_assistant/constants/frecuencies.dart';
+import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/add_reminder/date_title_description_and_date_section.dart';
 import 'package:reminder_assistant/presentation/widgets/add_reminder/date_title_description_and_days_section.dart';
 import 'package:reminder_assistant/presentation/widgets/add_reminder/description_input.dart';
@@ -23,6 +24,12 @@ class AddReminderScreen extends StatelessWidget {
     final hour = provider.selectedTime.hour;
     final minute = provider.selectedTime.minute;
     final amPm = provider.amPm;
+    final isAdding = provider.isAdding;
+
+    TextEditingController titleController =
+        TextEditingController(text: provider.title);
+    TextEditingController descriptionController =
+        TextEditingController(text: provider.description);
 
     void frecuencyAction(String value) {
       provider.setFrecuency(value);
@@ -32,13 +39,37 @@ class AddReminderScreen extends StatelessWidget {
       provider.setSelectedHour(time);
     }
 
+    void saveReminder() {
+      provider.setTitle(titleController.text);
+      provider.setDescription(descriptionController.text);
+
+      provider.addReminder(Reminder(
+        id: 123,
+        title: titleController.text,
+        description: descriptionController.text,
+        frequency: frecuency,
+        dateTime: provider.selectedTime,
+        status: 'active',
+        selectedDays: provider.selectedDays,
+      ));
+      context.push('/');
+    }
+
+    void setTitleAction(String value) {
+      provider.setTitle(value);
+    }
+
+    void setDescriptionAction(String value) {
+      provider.setDescription(value);
+    }
+
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Color(0xFF26C46C),
+          backgroundColor: isAdding ? Color(0xFF26C46C) : Color(0xFFD97015),
           leading: IconButton(
             icon: Icon(
               Icons.arrow_back,
@@ -46,7 +77,8 @@ class AddReminderScreen extends StatelessWidget {
               color: Color(0xFFFFFFFF),
             ),
             onPressed: () {
-              context.pop();
+              context.push('/');
+              provider.resetAllStates();
             },
           ),
         ),
@@ -57,9 +89,13 @@ class AddReminderScreen extends StatelessWidget {
               child: Column(
                 children: [
                   SizedBox(height: 16),
-                  TitleInput(),
+                  TitleInput(
+                      titleController: titleController,
+                      setTitleAction: setTitleAction),
                   SizedBox(height: 16),
-                  DescriptionInput(),
+                  DescriptionInput(
+                      descriptionController: descriptionController,
+                      setDescriptionAction: setDescriptionAction),
                   SizedBox(height: 36),
                   FrecuencyTitleAndDescription(),
                   SizedBox(height: 16),
@@ -68,7 +104,11 @@ class AddReminderScreen extends StatelessWidget {
                   SizedBox(height: 36),
                   HourTitleAndDescription(),
                   SizedBox(height: 16),
-                  HourSection(hourAction: hourAction, hour: hour, minute: minute, amPm: amPm),
+                  HourSection(
+                      hourAction: hourAction,
+                      hour: hour,
+                      minute: minute,
+                      amPm: amPm),
                   SizedBox(height: 36),
                   if (frecuency == Frecuencies.unique) ...[
                     DateTitleDescriptionAndDateSection(),
@@ -76,7 +116,7 @@ class AddReminderScreen extends StatelessWidget {
                   if (frecuency == Frecuencies.weekly) ...[
                     DateTitleDescriptionAndDaysSection(provider: provider),
                   ],
-                  SaveButton(),
+                  SaveButton(saveReminder: saveReminder),
                   SizedBox(height: 30),
                 ],
               )),

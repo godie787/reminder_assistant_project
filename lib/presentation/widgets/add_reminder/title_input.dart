@@ -1,30 +1,34 @@
 import 'package:flutter/material.dart';
 
 class TitleInput extends StatelessWidget {
-  const TitleInput({super.key});
+  final Function setTitleAction;
+  final TextEditingController titleController;
+  const TitleInput(
+      {super.key, required this.titleController, required this.setTitleAction});
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: titleController,
       style: TextStyle(
         fontSize: 20,
         color: Color(0xff000000),
       ),
+      onChanged: (value) {
+        setTitleAction(value);
+      },
       decoration: InputDecoration(
         hintText: 'Título...',
         hintStyle: TextStyle(
           fontSize: 20,
           color: Color(0xff222222),
         ),
-
         filled: true,
         fillColor: Color(0xffD9D9D9),
-
         contentPadding: EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 18,
         ),
-
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide.none,
           borderRadius: BorderRadius.only(

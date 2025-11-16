@@ -24,6 +24,12 @@ final GoRouter appRouter = GoRouter(
             return const AddReminderScreen();
           },
         ),
+        GoRoute(
+          path: 'edit_reminder/:id',
+          builder: (BuildContext context, GoRouterState state) {
+            return const AddReminderScreen();
+          },
+        ),
       ],
     ),
   ],

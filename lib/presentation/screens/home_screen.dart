@@ -18,7 +18,8 @@ class HomeScreen extends StatelessWidget {
     final isDeleting = reminderProvider.isDeleting;
     final isAdding = reminderProvider.isAdding;
     final reminders = reminderProvider.reminders;
-    
+    final initialLoading = reminderProvider.initialLoading;
+
     void redirectToAddReminder() {
       context.push('/add_reminder');
     }
@@ -38,10 +39,8 @@ class HomeScreen extends StatelessWidget {
         reminderProvider.setIsAdding(false);
         return;
       }
-      print('Redirigiendo a agregar recordatorio');
       reminderProvider.setIsAdding(true);
       redirectToAddReminder();
-      reminderProvider.setIsAdding(false);
     }
 
     void editReminder() {
@@ -90,26 +89,40 @@ class HomeScreen extends StatelessWidget {
       }
     }
 
-    return Scaffold(
-        body: SafeArea(
-            child: Column(
-      children: [
-        HeaderSection(
-          redirectToAdd: redirectToAddReminder,
-          isDeletingReminder: isDeletingReminder,
-          addReminder: addReminder,
+    if (initialLoading) {
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(),
         ),
-        SizedBox(height: 20),
-        EditReminder(editReminder: editReminder),
-        SizedBox(height: 10),
-        RemindersListView(
-            reminders: reminders,
-            isEditing: isEditing,
-            isDeleting: isDeleting,
-            onCardTap: handleCardAction),
-        SizedBox(height: 10),
-        ReadMoreButton(),
-      ],
-    )));
+      );
+    }
+
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+        reminderProvider.resetAllStates();
+      },
+      child: Scaffold(
+          body: SafeArea(
+              child: Column(
+        children: [
+          HeaderSection(
+            redirectToAdd: redirectToAddReminder,
+            isDeletingReminder: isDeletingReminder,
+            addReminder: addReminder,
+          ),
+          SizedBox(height: 20),
+          EditReminder(editReminder: editReminder),
+          SizedBox(height: 10),
+          RemindersListView(
+              reminders: reminders,
+              isEditing: isEditing,
+              isDeleting: isDeleting,
+              onCardTap: handleCardAction),
+          SizedBox(height: 10),
+          ReadMoreButton(),
+        ],
+      ))),
+    );
   }
 }

@@ -39,7 +39,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
 
   @override
   Future<Reminder> createReminder(Reminder reminder) {
-    throw UnimplementedError();
+    return reminderLocalDataSource.create(reminder);
   }
 
   @override
