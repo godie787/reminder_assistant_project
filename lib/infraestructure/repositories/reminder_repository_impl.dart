@@ -43,8 +43,18 @@ class ReminderRepositoryImpl implements ReminderRepository {
   }
 
   @override
-  Future<Reminder> updateReminder(Reminder reminder) {
-    throw UnimplementedError();
+  Future<Reminder> updateReminder(Reminder reminder) async {
+    final updatedJson = await reminderLocalDataSource.update(reminder);
+
+    return Reminder(
+      id: updatedJson['id'],
+      title: updatedJson['title'],
+      description: updatedJson['description'],
+      dateTime: DateTime.parse(updatedJson['dateTime']),
+      frequency: updatedJson['frequency'],
+      status: updatedJson['status'],
+      selectedDays: (updatedJson['selectedDays'] as String?)?.split(',') ?? [],
+    );
   }
 
   @override

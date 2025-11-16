@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:reminder_assistant/presentation/widgets/login/login_button.dart';
+import 'package:reminder_assistant/providers/login_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginProvider = context.watch<LoginProvider>();
+
     void onPressed(String name) {
       if (name == 'google_login') {
         print("Google login pressed");
       } else if (name == 'guest_login') {
-        print("Guest login pressed");
+        context.push('/home');
       }
     }
 
     return Scaffold(
+      
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

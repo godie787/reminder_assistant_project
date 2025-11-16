@@ -34,11 +34,8 @@ class DaysButton extends StatelessWidget {
             child: Text(
               day,
               style: TextStyle(
-                  color: isSelected
-                      ? Colors.white
-                      : Color(
-                          0xFFD01664),
-                  fontSize: 24,
+                  color: isSelected ? Colors.white : Color(0xFFD01664),
+                  fontSize: 22,
                   fontWeight: FontWeight.bold),
             ),
           ),

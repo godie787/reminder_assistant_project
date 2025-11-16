@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_assistant/app_dependencies.dart';
 import 'package:reminder_assistant/config/router/app_router.dart';
+import 'package:reminder_assistant/providers/login_provider.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 void main() {
@@ -21,6 +22,9 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ReminderProvider(reminderUseCase: deps.reminderUseCase)
             ..fetchReminders(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => LoginProvider(),
         ),
       ],
       child: MaterialApp.router(

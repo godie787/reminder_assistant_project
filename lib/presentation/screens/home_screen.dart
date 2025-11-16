@@ -17,6 +17,7 @@ class HomeScreen extends StatelessWidget {
     final isEditing = reminderProvider.isEditing;
     final isDeleting = reminderProvider.isDeleting;
     final isAdding = reminderProvider.isAdding;
+    final isViewing = reminderProvider.isViewing;
     final reminders = reminderProvider.reminders;
     final initialLoading = reminderProvider.initialLoading;
 
@@ -39,6 +40,7 @@ class HomeScreen extends StatelessWidget {
         reminderProvider.setIsAdding(false);
         return;
       }
+      reminderProvider.resetReminderForm();
       reminderProvider.setIsAdding(true);
       redirectToAddReminder();
     }
@@ -81,11 +83,11 @@ class HomeScreen extends StatelessWidget {
 
     void handleCardAction(Reminder reminder) {
       if (isEditing) {
-        print('Editar recordatorio ${reminder.title}');
+        context.push('/edit_reminder/${reminder.id}');
       } else if (isDeleting) {
         reminderProvider.deleteReminder(reminder.id);
-      } else {
-        print('Leer recordatorio ${reminder.title}');
+      } else if (isViewing) {
+        reminderProvider.setIsViewing(true);
       }
     }
 
@@ -103,26 +105,38 @@ class HomeScreen extends StatelessWidget {
         reminderProvider.resetAllStates();
       },
       child: Scaffold(
-          body: SafeArea(
-              child: Column(
-        children: [
-          HeaderSection(
-            redirectToAdd: redirectToAddReminder,
-            isDeletingReminder: isDeletingReminder,
-            addReminder: addReminder,
+        body: SafeArea(
+          child: Column(
+            children: [
+              HeaderSection(
+                redirectToAdd: redirectToAddReminder,
+                isDeletingReminder: isDeletingReminder,
+                addReminder: addReminder,
+              ),
+              SizedBox(height: 20),
+              EditReminder(editReminder: editReminder),
+              SizedBox(height: 10),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(bottom: 10),
+                  child: Column(
+                    children: [
+                      RemindersListView(
+                        reminders: reminders,
+                        isEditing: isEditing,
+                        isDeleting: isDeleting,
+                        onCardTap: handleCardAction,
+                      ),
+                      // SizedBox(height: 20),
+                      // ReadMoreButton(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
-          SizedBox(height: 20),
-          EditReminder(editReminder: editReminder),
-          SizedBox(height: 10),
-          RemindersListView(
-              reminders: reminders,
-              isEditing: isEditing,
-              isDeleting: isDeleting,
-              onCardTap: handleCardAction),
-          SizedBox(height: 10),
-          ReadMoreButton(),
-        ],
-      ))),
+        ),
+      ),
     );
   }
 }

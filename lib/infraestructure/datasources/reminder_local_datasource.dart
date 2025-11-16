@@ -7,9 +7,10 @@ class ReminderLocalDataSource {
       'title': 'Estirar las piernas',
       'description':
           'Hacer una pausa para estirar las piernas y mejorar la circulación',
-      'dateTime': '2025-11-11T10:00:00Z',
-      'frequency': 'Diario',
-      'status': 'Pendiente'
+      'dateTime': '2025-11-11T22:13:00Z',
+      'frequency': 'semanal',
+      'status': 'Pendiente',
+      'selectedDays': 'Lunes,Miércoles,Viernes'
     },
     {
       'id': 2,
@@ -17,8 +18,9 @@ class ReminderLocalDataSource {
       'description':
           'Hacer una pausa para estirar los brazos y aliviar la tensión',
       'dateTime': '2025-12-12T12:00:00Z',
-      'frequency': 'Semanal',
-      'status': 'Completado'
+      'frequency': 'semanal',
+      'status': 'Completado',
+      'selectedDays': 'Martes,Jueves'
     },
     {
       'id': 3,
@@ -26,7 +28,7 @@ class ReminderLocalDataSource {
       'description':
           'Hacer una pausa para estirar la espalda y aliviar la tensión',
       'dateTime': '2026-01-01T09:00:00Z',
-      'frequency': 'Mensual',
+      'frequency': 'unico',
       'status': 'Pendiente'
     },
     {
@@ -35,7 +37,7 @@ class ReminderLocalDataSource {
       'description':
           'Hacer una pausa para caminar un poco y mejorar la circulación',
       'dateTime': '2026-02-14T15:30:00Z',
-      'frequency': 'Anual',
+      'frequency': 'unico',
       'status': 'Completado'
     },
     {
@@ -101,5 +103,26 @@ class ReminderLocalDataSource {
       status: reminder.status,
       selectedDays: reminder.selectedDays,
     );
+  }
+
+  Future<Map<String, dynamic>> update(Reminder reminder) async {
+    final index =
+        _localReminders.indexWhere((element) => element['id'] == reminder.id);
+    if (index == -1) {
+      throw Exception('Reminder with id ${reminder.id} not found');
+    }
+
+    final updatedReminder = {
+      'id': reminder.id,
+      'title': reminder.title,
+      'description': reminder.description,
+      'dateTime': reminder.dateTime.toIso8601String(),
+      'frequency': reminder.frequency,
+      'status': reminder.status,
+      'selectedDays': reminder.selectedDays.join(','),
+    };
+
+    _localReminders[index] = updatedReminder;
+    return updatedReminder;
   }
 }

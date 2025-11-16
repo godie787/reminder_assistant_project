@@ -29,7 +29,7 @@ class RemindersListView extends StatelessWidget {
     }
 
     return Container(
-      height: size.height * 0.6,
+      height: size.height * 0.65,
       color: Colors.transparent,
       child: ListView.builder(
         padding: const EdgeInsets.only(top: 20),

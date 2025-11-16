@@ -41,12 +41,12 @@ class ReminderCard extends StatelessWidget {
                         : 0,
               ),
             ),
-            elevation: 20,
-            shadowColor: isEditing
-                ? Color(0xffD97015)
-                : isDeleting
-                    ? Color(0xffDE2323)
-                    : Colors.black,
+            // elevation: 20,
+            // shadowColor: isEditing
+            //     ? Color(0xffD97015)
+            //     : isDeleting
+            //         ? Color(0xffDE2323)
+            //         : Colors.black,
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
@@ -64,22 +64,22 @@ class ReminderCard extends StatelessWidget {
                       ),
                     ),
                   ),
-                    Container(
+                  Container(
                     margin: const EdgeInsets.only(bottom: 10),
                     child: Center(
                       child: Text(
-                      reminder!.frequency.toUpperCase() +
-                        (reminder!.frequency.toLowerCase() == 'semanal'
-                          ? ' (${reminder!.selectedDays.join(', ')})'
-                          : ''),
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Color(0xFFFFFFFF),
-                        fontWeight: FontWeight.w500,
-                      ),
+                        reminder!.frequency.toUpperCase() +
+                            (reminder!.frequency.toLowerCase() == 'semanal'
+                                ? ' (${reminder!.selectedDays.join(', ')})'
+                                : ''),
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Color(0xFFFFFFFF),
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                    ),
+                  ),
                   Container(
                     margin: const EdgeInsets.only(bottom: 10),
                     child: Center(

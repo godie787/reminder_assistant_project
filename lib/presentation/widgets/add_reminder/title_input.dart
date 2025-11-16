@@ -10,6 +10,7 @@ class TitleInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: titleController,
+      maxLength: 21,
       style: TextStyle(
         fontSize: 20,
         color: Color(0xff000000),

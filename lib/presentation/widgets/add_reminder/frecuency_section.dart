@@ -3,11 +3,16 @@ import 'package:reminder_assistant/constants/frecuencies.dart';
 
 class FrecuencySection extends StatelessWidget {
   final Function(String) frecuencyAction;
+  final bool isEditing;
+  final bool isAdding;
   final String frecuency;
 
   const FrecuencySection(
-      {super.key, required this.frecuencyAction, required this.frecuency});
-
+      {super.key,
+      required this.frecuencyAction,
+      required this.frecuency,
+      required this.isEditing,
+      required this.isAdding});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -22,16 +27,15 @@ class FrecuencySection extends StatelessWidget {
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF83008C),
-                  elevation: frecuency == Frecuencies.unique ? 10 : 0,
+                  // elevation: frecuency == Frecuencies.unique ? 10 : 0,
                   side: BorderSide(
                       color: frecuency == Frecuencies.unique
-                          ? Color(0xFF26C46C)
+                          ? (isEditing ? Color(0xFFD97015) : Color(0xFF26C46C))
                           : Colors.transparent,
                       width: 4),
                 ),
                 child: Text('Único',
-                    style:
-                        TextStyle(color: Color(0xFFFFFFFF), fontSize: 24))),
+                    style: TextStyle(color: Color(0xFFFFFFFF), fontSize: 24))),
           ),
         ),
         SizedBox(width: size.width * 0.05),
@@ -46,10 +50,12 @@ class FrecuencySection extends StatelessWidget {
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Color(0xffD01664),
-                      elevation: frecuency == Frecuencies.weekly ? 10 : 0,
+                      // elevation: frecuency == Frecuencies.weekly ? 10 : 0,
                       side: BorderSide(
                           color: frecuency == Frecuencies.weekly
-                              ? Color(0xFF26C46C)
+                              ? (isEditing
+                                  ? Color(0xFFD97015)
+                                  : Color(0xFF26C46C))
                               : Colors.transparent,
                           width: 4),
                     ),

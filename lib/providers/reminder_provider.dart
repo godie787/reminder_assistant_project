@@ -15,14 +15,20 @@ class ReminderProvider extends ChangeNotifier {
   bool isEditing = false;
   bool isDeleting = false;
   bool isAdding = false;
+  bool isViewing = false;
+
   String frecuency = Frecuencies.unique;
   DateTime selectedTime = DateTime.now();
   String amPm = DateTime.now().hour >= 12 ? 'PM' : 'AM';
   String title = '';
   String description = '';
+  bool isTitleValid = true;
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
 
   void setTitle(String value) {
     title = value;
+    isTitleValid = value.length <= 21;
     notifyListeners();
   }
 
@@ -37,6 +43,11 @@ class ReminderProvider extends ChangeNotifier {
     } else {
       selectedDays.add(day);
     }
+    notifyListeners();
+  }
+
+  void setIsViewing(bool viewing) {
+    isViewing = viewing;
     notifyListeners();
   }
 
@@ -67,6 +78,8 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   void resetReminderForm() {
+    titleController.clear();
+    descriptionController.clear();
     title = '';
     description = '';
     frecuency = Frecuencies.unique;
@@ -80,6 +93,7 @@ class ReminderProvider extends ChangeNotifier {
     isAdding = false;
     isEditing = false;
     isDeleting = false;
+    isViewing = false;
     notifyListeners();
   }
 
@@ -88,7 +102,7 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
     await Future.delayed(Duration(milliseconds: 500));
     reminders = await reminderUseCase.getAllReminders();
-    
+
     initialLoading = false;
     notifyListeners();
   }
@@ -100,8 +114,28 @@ class ReminderProvider extends ChangeNotifier {
 
   Future<void> addReminder(Reminder reminder) async {
     await reminderUseCase.createReminder(reminder);
-    
     await fetchReminders();
     resetReminderForm();
+  }
+
+  Future<void> loadReminderData(int id) async {
+    final reminder = await reminderUseCase.getReminderById(id);
+
+    titleController.text = reminder.title;
+    descriptionController.text = reminder.description;
+    title = reminder.title;
+    description = reminder.description;
+    frecuency = reminder.frequency;
+    selectedTime = reminder.dateTime;
+    amPm = selectedTime.hour >= 12 ? 'PM' : 'AM';
+    selectedDays = [...reminder.selectedDays];
+    notifyListeners();
+  }
+
+  Future<Reminder> editReminder(Reminder reminder) async {
+    final editedReminder = await reminderUseCase.updateReminder(reminder);
+    await fetchReminders();
+    resetReminderForm();
+    return editedReminder;
   }
 }
