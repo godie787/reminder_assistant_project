@@ -15,8 +15,7 @@ class ReminderProvider extends ChangeNotifier {
   bool isEditing = false;
   bool isDeleting = false;
   bool isAdding = false;
-  bool isViewing = false;
-
+  bool isReading = false;
   String frecuency = Frecuencies.unique;
   DateTime selectedTime = DateTime.now();
   String amPm = DateTime.now().hour >= 12 ? 'PM' : 'AM';
@@ -46,8 +45,8 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setIsViewing(bool viewing) {
-    isViewing = viewing;
+  void setIsReading(bool reading) {
+    isReading = reading;
     notifyListeners();
   }
 
@@ -93,7 +92,7 @@ class ReminderProvider extends ChangeNotifier {
     isAdding = false;
     isEditing = false;
     isDeleting = false;
-    isViewing = false;
+    isReading = false;
     notifyListeners();
   }
 

@@ -6,6 +6,7 @@ import 'package:reminder_assistant/presentation/widgets/home/edit_reminder.dart'
 import 'package:reminder_assistant/presentation/widgets/home/header_section.dart';
 import 'package:reminder_assistant/presentation/widgets/home/home_reminders_section.dart';
 import 'package:reminder_assistant/presentation/widgets/home/read_more_button.dart';
+import 'package:reminder_assistant/presentation/widgets/home/reminder_detail_dialog.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,7 +18,6 @@ class HomeScreen extends StatelessWidget {
     final isEditing = reminderProvider.isEditing;
     final isDeleting = reminderProvider.isDeleting;
     final isAdding = reminderProvider.isAdding;
-    final isViewing = reminderProvider.isViewing;
     final reminders = reminderProvider.reminders;
     final initialLoading = reminderProvider.initialLoading;
 
@@ -84,11 +84,26 @@ class HomeScreen extends StatelessWidget {
     void handleCardAction(Reminder reminder) {
       if (isEditing) {
         context.push('/edit_reminder/${reminder.id}');
-      } else if (isDeleting) {
-        reminderProvider.deleteReminder(reminder.id);
-      } else if (isViewing) {
-        reminderProvider.setIsViewing(true);
+        return;
       }
+
+      if (isDeleting) {
+        reminderProvider.deleteReminder(reminder.id);
+        return;
+      }
+
+      reminderProvider.setIsReading(true);
+
+      showDialog(
+        context: context,
+        builder: (_) => ReminderDetailDialog(
+          reminder: reminder,
+          onClose: () {
+            reminderProvider.setIsReading(false);
+            Navigator.of(context).pop();
+          },
+        ),
+      );
     }
 
     if (initialLoading) {
