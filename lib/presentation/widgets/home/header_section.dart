@@ -4,9 +4,10 @@ import 'package:reminder_assistant/presentation/widgets/home/add_or_delete_butto
 class HeaderSection extends StatelessWidget {
   final VoidCallback redirectToAdd;
   final VoidCallback isDeletingReminder;
+  final VoidCallback addReminder;
 
   const HeaderSection(
-      {super.key, required this.redirectToAdd, required this.isDeletingReminder});
+      {super.key, required this.redirectToAdd, required this.isDeletingReminder, required this.addReminder});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class HeaderSection extends StatelessWidget {
               imagePath: 'assets/images/addReminder.png',
               color: Color(0xff26C46C),
               name: 'add',
-              onPressed: redirectToAdd,
+              onPressed: addReminder,
             ),
             SizedBox(
               width: 169,

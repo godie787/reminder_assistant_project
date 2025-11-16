@@ -5,6 +5,7 @@ class Reminder {
   final DateTime dateTime;
   final String frequency;
   final String status;
+  final List<String> selectedDays;
 
   Reminder({
     required this.id,
@@ -13,5 +14,6 @@ class Reminder {
     required this.dateTime,
     required this.frequency,
     required this.status,
+    required this.selectedDays,
   });
 }

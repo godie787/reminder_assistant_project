@@ -95,10 +95,10 @@ class ReminderCard extends StatelessWidget {
                     margin: const EdgeInsets.only(top: 10),
                     child: Text(
                       isEditing
-                          ? 'toca para editar'
+                          ? 'TOCA PARA EDITAR'
                           : isDeleting
-                              ? 'toca para eliminar'
-                              : 'toca para leer',
+                              ? 'TOCA PARA ELIMINAR'
+                              : 'TOCA PARA LEER',
                       style: TextStyle(
                         fontSize: 18,
                         color: Color(0xFFFFFFFF),

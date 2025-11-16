@@ -18,6 +18,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
         dateTime: DateTime.parse(json['dateTime']),
         frequency: json['frequency'],
         status: json['status'],
+        selectedDays: (json['selectedDays'] as String?)?.split(',') ?? [],
       );
     }).toList();
   }
@@ -32,6 +33,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
       dateTime: DateTime.parse(reminder['dateTime']),
       frequency: reminder['frequency'],
       status: reminder['status'],
+      selectedDays: (reminder['selectedDays'] as String?)?.split(',') ?? [],
     );
   }
 

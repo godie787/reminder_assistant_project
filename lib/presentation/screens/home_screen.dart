@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/home/edit_reminder.dart';
@@ -15,12 +16,40 @@ class HomeScreen extends StatelessWidget {
     final reminderProvider = context.watch<ReminderProvider>();
     final isEditing = reminderProvider.isEditing;
     final isDeleting = reminderProvider.isDeleting;
+    final isAdding = reminderProvider.isAdding;
     final reminders = reminderProvider.reminders;
+    
     void redirectToAddReminder() {
-      print('redireccionar a la pantalla de agregar recordatorio');
+      context.push('/add_reminder');
+    }
+
+    void addReminder() {
+      if (isEditing) {
+        reminderProvider.setIsEditing(false);
+        return;
+      }
+
+      if (isDeleting) {
+        reminderProvider.setIsDeleting(false);
+        return;
+      }
+
+      if (reminderProvider.isAdding) {
+        reminderProvider.setIsAdding(false);
+        return;
+      }
+      print('Redirigiendo a agregar recordatorio');
+      reminderProvider.setIsAdding(true);
+      redirectToAddReminder();
+      reminderProvider.setIsAdding(false);
     }
 
     void editReminder() {
+      if (isAdding) {
+        reminderProvider.setIsAdding(false);
+        return;
+      }
+
       if (isDeleting) {
         reminderProvider.setIsDeleting(false);
         return;
@@ -36,6 +65,11 @@ class HomeScreen extends StatelessWidget {
     void isDeletingReminder() {
       if (isEditing) {
         reminderProvider.setIsEditing(false);
+        return;
+      }
+
+      if (isAdding) {
+        reminderProvider.setIsAdding(false);
         return;
       }
 
@@ -63,6 +97,7 @@ class HomeScreen extends StatelessWidget {
         HeaderSection(
           redirectToAdd: redirectToAddReminder,
           isDeletingReminder: isDeletingReminder,
+          addReminder: addReminder,
         ),
         SizedBox(height: 20),
         EditReminder(editReminder: editReminder),
