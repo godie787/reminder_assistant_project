@@ -1,4 +1,6 @@
+import 'package:reminder_assistant/domain/entities/user/user.dart';
+
 abstract class UserRepository {
-  Future<String> getUserId();
-  Future<void> saveUserId(String userId);
+  Future<User?> getUserId(String id);
+  Future<User?> createUser(User user);
 }

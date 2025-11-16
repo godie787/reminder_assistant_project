@@ -1,26 +1,77 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
 import 'package:reminder_assistant/presentation/widgets/login/login_button.dart';
-import 'package:reminder_assistant/providers/login_provider.dart';
+import 'package:reminder_assistant/providers/auth_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final loginProvider = context.watch<LoginProvider>();
+    Future<UserCredential?> signInWithGoogle() async {
+      try {
+        final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+        if (googleUser == null) return null; 
+        final GoogleSignInAuthentication googleAuth =
+            await googleUser.authentication;
 
-    void onPressed(String name) {
-      if (name == 'google_login') {
-        print("Google login pressed");
-      } else if (name == 'guest_login') {
-        context.push('/home');
+        final credential = GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        final userCredential =
+            await FirebaseAuth.instance.signInWithCredential(credential);
+
+        return userCredential;
+      } catch (e) {
+        return null;
       }
     }
 
+    void onPressed(String name) async {
+      if (name == 'google_login') {
+        final result = await signInWithGoogle();
+
+        if (result != null) {
+          await context.read<AuthenticationProvider>().checkAuthStatus();
+          context.go('/home');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Error al iniciar sesión con Google')),
+          );
+        }
+      } else if (name == 'guest_login') {
+        context.go('/home');
+      }
+    }
+
+    final authProvider = context.watch<AuthenticationProvider>();
+
+    if (authProvider.isCheckingAuth) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (authProvider.currentUser != null) {
+      Future.microtask(() {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Bienvenido ${authProvider.currentUser!.name}',
+            ),
+          ),
+        );
+
+        context.go('/home');
+      });
+    }
+
     return Scaffold(
-      
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

@@ -5,7 +5,6 @@ import 'package:reminder_assistant/domain/entities/reminder/reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/home/edit_reminder.dart';
 import 'package:reminder_assistant/presentation/widgets/home/header_section.dart';
 import 'package:reminder_assistant/presentation/widgets/home/home_reminders_section.dart';
-import 'package:reminder_assistant/presentation/widgets/home/read_more_button.dart';
 import 'package:reminder_assistant/presentation/widgets/home/reminder_detail_dialog.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
