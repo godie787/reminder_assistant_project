@@ -44,7 +44,7 @@ class AddReminderScreen extends StatelessWidget {
       provider.setDescription(descriptionController.text);
 
       provider.addReminder(Reminder(
-        id: 123,
+        id: 0,
         title: titleController.text,
         description: descriptionController.text,
         frequency: frecuency,

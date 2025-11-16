@@ -86,7 +86,7 @@ class ReminderProvider extends ChangeNotifier {
   Future<void> fetchReminders() async {
     initialLoading = true;
     notifyListeners();
-    await Future.delayed(Duration(milliseconds: 500)); // Simulate loading delay
+    await Future.delayed(Duration(milliseconds: 500));
     reminders = await reminderUseCase.getAllReminders();
     
     initialLoading = false;
@@ -99,9 +99,8 @@ class ReminderProvider extends ChangeNotifier {
   }
 
   Future<void> addReminder(Reminder reminder) async {
-    print(
-        'Adding Reminder: ${reminder.title}, ${reminder.description}, ${reminder.frequency}, ${reminder.dateTime}, ${reminder.selectedDays}, ${reminder.status}');
     await reminderUseCase.createReminder(reminder);
+    
     await fetchReminders();
     resetReminderForm();
   }

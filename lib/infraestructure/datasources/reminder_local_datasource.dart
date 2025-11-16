@@ -74,8 +74,15 @@ class ReminderLocalDataSource {
   }
 
   Future<Reminder> create(Reminder reminder) async {
+    final nextId = _localReminders.isEmpty
+        ? 1
+        : (_localReminders
+                .map((e) => e['id'] as int)
+                .reduce((a, b) => a > b ? a : b) +
+            1);
+
     final newReminder = {
-      'id': reminder.id,
+      'id': nextId,
       'title': reminder.title,
       'description': reminder.description,
       'dateTime': reminder.dateTime.toIso8601String(),
@@ -83,7 +90,16 @@ class ReminderLocalDataSource {
       'status': reminder.status,
       'selectedDays': reminder.selectedDays.join(','),
     };
+
     _localReminders.add(newReminder);
-    return reminder;
+    return Reminder(
+      id: nextId,
+      title: reminder.title,
+      description: reminder.description,
+      dateTime: reminder.dateTime,
+      frequency: reminder.frequency,
+      status: reminder.status,
+      selectedDays: reminder.selectedDays,
+    );
   }
 }
