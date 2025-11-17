@@ -25,7 +25,7 @@ class DaysButton extends StatelessWidget {
               backgroundColor: isSelected
                   ? Color(0xFFD01664)
                   : Colors
-                      .transparent, // Cambiamos el color si está seleccionado
+                      .transparent, 
               elevation: 0,
               side: BorderSide(
                   color: isSelected ? Color(0xFFD01664) : Color(0xFFD01664),
