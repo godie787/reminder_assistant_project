@@ -7,7 +7,10 @@ class HeaderSection extends StatelessWidget {
   final VoidCallback addReminder;
 
   const HeaderSection(
-      {super.key, required this.redirectToAdd, required this.isDeletingReminder, required this.addReminder});
+      {super.key,
+      required this.redirectToAdd,
+      required this.isDeletingReminder,
+      required this.addReminder});
 
   @override
   Widget build(BuildContext context) {

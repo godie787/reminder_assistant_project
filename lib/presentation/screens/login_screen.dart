@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
             Align(
               alignment: Alignment.topCenter,
               child: Container(
-                margin: const EdgeInsets.only(top: 30, left: 100, right: 100),
+                margin: const EdgeInsets.only(top: 30, left: 80, right: 80),
                 child: Center(
                     child: Text('Bienvenido/a',
                         textAlign: TextAlign.center,
