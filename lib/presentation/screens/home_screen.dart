@@ -6,6 +6,8 @@ import 'package:reminder_assistant/presentation/widgets/home/edit_reminder.dart'
 import 'package:reminder_assistant/presentation/widgets/home/header_section.dart';
 import 'package:reminder_assistant/presentation/widgets/home/home_reminders_section.dart';
 import 'package:reminder_assistant/presentation/widgets/home/reminder_detail_dialog.dart';
+import 'package:reminder_assistant/presentation/widgets/login/logout_alert_dialog.dart';
+import 'package:reminder_assistant/providers/auth_provider.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,6 +16,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final reminderProvider = context.watch<ReminderProvider>();
+    final authProvider = context.watch<AuthenticationProvider>();
     final isEditing = reminderProvider.isEditing;
     final isDeleting = reminderProvider.isDeleting;
     final isAdding = reminderProvider.isAdding;
@@ -113,10 +116,24 @@ class HomeScreen extends StatelessWidget {
       );
     }
 
-    return GestureDetector(
-      onTap: () {
-        FocusScope.of(context).unfocus();
-        reminderProvider.resetAllStates();
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldLogOut = await showDialog<bool>(
+              context: context,
+              builder: (context) => LogoutAlertDialog(
+                onConfirm: () async {
+                  await authProvider.signOut();
+                  return true;
+                },
+              ),
+            ) ??
+            false;
+
+        if (shouldLogOut) {
+          await authProvider.signOut();
+          context.go('/login');
+        }
+        return false;
       },
       child: Scaffold(
         body: SafeArea(
@@ -141,8 +158,6 @@ class HomeScreen extends StatelessWidget {
                         isDeleting: isDeleting,
                         onCardTap: handleCardAction,
                       ),
-                      // SizedBox(height: 20),
-                      // ReadMoreButton(),
                     ],
                   ),
                 ),

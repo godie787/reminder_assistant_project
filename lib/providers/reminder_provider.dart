@@ -148,7 +148,7 @@ class ReminderProvider extends ChangeNotifier {
           minute: reminder.dateTime.minute,
           selectedDays: reminder.selectedDays,
         );
-        print("selected dayys: ${reminder.selectedDays}");
+        print("selected days: ${reminder.selectedDays}");
       }
     } else {
       await LocalNotificationsService().scheduleNotification(
@@ -163,7 +163,14 @@ class ReminderProvider extends ChangeNotifier {
       );
     }
 
-    await reminderUseCase.createReminder(reminder);
+    if (reminder.id != 0) {
+      await reminderUseCase.updateReminder(reminder);
+      print("Recordatorio actualizado");
+    } else {
+      await reminderUseCase.createReminder(reminder);
+      print("Nuevo recordatorio creado");
+    }
+
     await fetchReminders();
     resetReminderForm();
   }
@@ -185,6 +192,7 @@ class ReminderProvider extends ChangeNotifier {
   Future<Reminder> editReminder(Reminder reminder) async {
     await LocalNotificationsService().cancelAllNotifications();
 
+    await reminderUseCase.updateReminder(reminder);
     await addReminder(reminder);
 
     await fetchReminders();
