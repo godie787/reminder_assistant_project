@@ -51,18 +51,8 @@ El proyecto implementa una arquitectura en capas:
 
 - Notificaciones locales programadas
 - Configuración de zonas horarias
-- Recordatorios recurrentes (diario, semanal, mensual, anual)
+- Recordatorios recurrentes (diario, semanal)
 - Gestión de permisos de notificaciones
-
-## ⚙️ Configuración
-
-El proyecto incluye configuración para múltiples plataformas:
-- Android
-- iOS
-- Web
-- Windows
-- Linux
-- macOS
 
 ## 💭 Reflexión Personal
 
