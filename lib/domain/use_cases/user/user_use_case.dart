@@ -9,4 +9,8 @@ class UserUseCase {
   Future<User?> getUser() async {
     return await userRepository.getUserId('');
   }
+
+  Future<User> createUser(User user) async {
+    return await userRepository.createUser(user);
+  }
 }

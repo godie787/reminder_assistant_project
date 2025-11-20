@@ -15,7 +15,6 @@ class UserRepositoryImpl implements UserRepository {
 
   @override
   Future<User> createUser(User user) async {
-    // aqui después guardar al usuario en firestore
-    return user;
+    return await userDatasource.createUser(user);
   }
 }

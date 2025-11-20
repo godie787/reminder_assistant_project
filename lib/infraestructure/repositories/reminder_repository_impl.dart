@@ -19,6 +19,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
         frequency: json['frequency'],
         status: json['status'],
         selectedDays: (json['selectedDays'] as String?)?.split(',') ?? [],
+        userId: json['userId'] ?? '',
       );
     }).toList();
   }
@@ -37,6 +38,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
       frequency: reminder['frequency'],
       status: reminder['status'],
       selectedDays: (reminder['selectedDays'] as String?)?.split(',') ?? [],
+      userId: reminder['userId'] ?? '',
     );
   }
 
@@ -57,6 +59,7 @@ class ReminderRepositoryImpl implements ReminderRepository {
       frequency: updatedJson['frequency'],
       status: updatedJson['status'],
       selectedDays: (updatedJson['selectedDays'] as String?)?.split(',') ?? [],
+      userId: updatedJson['userId'] ?? '',
     );
   }
 

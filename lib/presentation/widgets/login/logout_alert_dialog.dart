@@ -8,12 +8,11 @@ class LogoutAlertDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xffD9D9D9),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(
-          color: Color(
-              0xFF0078D7),
+          color: Color(0xFF0078D7),
           width: 3,
         ),
       ),
@@ -41,11 +40,9 @@ class LogoutAlertDialog extends StatelessWidget {
       actionsAlignment: MainAxisAlignment.center,
       actions: [
         TextButton(
-          onPressed: () =>
-              Navigator.of(context).pop(false), 
+          onPressed: () => Navigator.of(context).pop(false),
           style: TextButton.styleFrom(
-            backgroundColor: Color.fromARGB(
-                255, 198, 44, 44), 
+            backgroundColor: Color.fromARGB(255, 198, 44, 44),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
             textStyle:
                 const TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
@@ -58,13 +55,11 @@ class LogoutAlertDialog extends StatelessWidget {
         SizedBox(height: 10),
         ElevatedButton(
           onPressed: () async {
-            bool shouldLogOut = await onConfirm(); 
-            Navigator.of(context)
-                .pop(shouldLogOut); 
+            bool shouldLogOut = await onConfirm();
+            Navigator.of(context).pop(shouldLogOut);
           },
           style: ElevatedButton.styleFrom(
-            backgroundColor:
-                Color(0xFF26C46C), 
+            backgroundColor: Color(0xFF26C46C),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
             ),

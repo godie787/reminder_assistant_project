@@ -127,7 +127,7 @@ class LocalNotificationsService {
             body,
             scheduledDate,
             notificationDetails(),
-            androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+            androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
             matchDateTimeComponents: DateTimeComponents.time,
           );
           print("Scheduled notification for $day on $scheduledDate");
@@ -145,7 +145,7 @@ class LocalNotificationsService {
           body,
           scheduledDate,
           notificationDetails(),
-          androidScheduleMode: AndroidScheduleMode.inexactAllowWhileIdle,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           matchDateTimeComponents: DateTimeComponents.time,
         );
         print("Scheduled notification for unique date: $scheduledDate");

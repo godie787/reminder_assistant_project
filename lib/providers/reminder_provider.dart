@@ -114,6 +114,11 @@ class ReminderProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  void clearReminders() {
+    reminders = [];
+    notifyListeners();
+  }
+
   Future<void> fetchReminders() async {
     initialLoading = true;
     notifyListeners();

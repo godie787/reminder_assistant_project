@@ -42,11 +42,14 @@ class MainApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => ReminderProvider(
             reminderUseCase: deps.reminderUseCase,
-          )..fetchReminders(),
+          ),
         ),
         ChangeNotifierProvider(
           create: (_) =>
               AuthenticationProvider(userUseCase: userDeps.userUseCase),
+        ),
+        Provider(
+          create: (_) => userDeps.userUseCase,
         ),
       ],
       child: MaterialApp.router(

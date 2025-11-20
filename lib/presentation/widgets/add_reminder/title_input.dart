@@ -25,7 +25,7 @@ class TitleInput extends StatelessWidget {
           color: Color(0xff222222),
         ),
         filled: true,
-        fillColor: Color(0xffD9D9D9),
+        fillColor: Color.fromARGB(255, 193, 193, 193),
         contentPadding: EdgeInsets.symmetric(
           horizontal: 16,
           vertical: 18,

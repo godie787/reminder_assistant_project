@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart' as fb_auth;
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +32,7 @@ class AddOrEditReminderScreen extends StatelessWidget {
     final isEditing = context.select((ReminderProvider p) => p.isEditing);
     final titleController = provider.titleController;
     final descriptionController = provider.descriptionController;
-    
+
     void frecuencyAction(String value) {
       provider.setFrecuency(value);
     }
@@ -44,6 +45,9 @@ class AddOrEditReminderScreen extends StatelessWidget {
       provider.setTitle(titleController.text);
       provider.setDescription(descriptionController.text);
 
+      final currentUser = fb_auth.FirebaseAuth.instance.currentUser;
+      final userId = currentUser?.uid ?? '';
+
       if (isEditing && reminderId != null) {
         provider.editReminder(
           Reminder(
@@ -54,6 +58,7 @@ class AddOrEditReminderScreen extends StatelessWidget {
             dateTime: provider.selectedTime,
             status: 'active',
             selectedDays: provider.selectedDays,
+            userId: userId,
           ),
         );
       } else if (isAdding) {
@@ -66,6 +71,7 @@ class AddOrEditReminderScreen extends StatelessWidget {
             dateTime: provider.selectedTime,
             status: 'active',
             selectedDays: provider.selectedDays,
+            userId: userId,
           ),
         );
       }
@@ -93,6 +99,7 @@ class AddOrEditReminderScreen extends StatelessWidget {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
+        backgroundColor: Color(0xffD9D9D9),
         appBar: AppBar(
           backgroundColor: isAdding
               ? Color(0xFF26C46C)

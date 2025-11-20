@@ -6,6 +6,7 @@ class Reminder {
   final String frequency;
   final String status;
   final List<String> selectedDays;
+  final String userId;
 
   Reminder({
     required this.id,
@@ -15,5 +16,6 @@ class Reminder {
     required this.frequency,
     required this.status,
     required this.selectedDays,
+    required this.userId,
   });
 }

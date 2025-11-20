@@ -10,7 +10,8 @@ class ReminderLocalDataSource {
       'dateTime': '2025-11-11T22:13:00Z',
       'frequency': 'semanal',
       'status': 'Pendiente',
-      'selectedDays': 'Lunes,Miércoles,Viernes'
+      'selectedDays': 'Lunes,Miércoles,Viernes',
+      'userId': '',
     },
     {
       'id': 2,
@@ -20,7 +21,8 @@ class ReminderLocalDataSource {
       'dateTime': '2025-12-12T12:00:00Z',
       'frequency': 'semanal',
       'status': 'Completado',
-      'selectedDays': 'Martes,Jueves'
+      'selectedDays': 'Martes,Jueves',
+      'userId': '',
     },
     {
       'id': 3,
@@ -29,7 +31,8 @@ class ReminderLocalDataSource {
           'Hacer una pausa para estirar la espalda y aliviar la tensión',
       'dateTime': '2026-01-01T09:00:00Z',
       'frequency': 'unico',
-      'status': 'Pendiente'
+      'status': 'Pendiente',
+      'userId': '',
     },
     {
       'id': 4,
@@ -38,7 +41,8 @@ class ReminderLocalDataSource {
           'Hacer una pausa para caminar un poco y mejorar la circulación',
       'dateTime': '2026-02-14T15:30:00Z',
       'frequency': 'unico',
-      'status': 'Completado'
+      'status': 'Completado',
+      'userId': '',
     },
     {
       'id': 5,
@@ -46,7 +50,8 @@ class ReminderLocalDataSource {
       'description': 'Hacer una pausa para beber agua y mantenerse hidratado',
       'dateTime': '2026-03-03T08:45:00Z',
       'frequency': 'Diario',
-      'status': 'Pendiente'
+      'status': 'Pendiente',
+      'userId': '',
     },
     {
       'id': 6,
@@ -55,7 +60,8 @@ class ReminderLocalDataSource {
           'Hacer una pausa para descansar la vista y reducir la fatiga ocular',
       'dateTime': '2026-04-20T14:15:00Z',
       'frequency': 'Semanal',
-      'status': 'Completado'
+      'status': 'Completado',
+      'userId': '',
     },
   ];
 
@@ -91,6 +97,7 @@ class ReminderLocalDataSource {
       'frequency': reminder.frequency,
       'status': reminder.status,
       'selectedDays': reminder.selectedDays.join(','),
+      'userId': reminder.userId,
     };
 
     _localReminders.add(newReminder);
@@ -102,6 +109,7 @@ class ReminderLocalDataSource {
       frequency: reminder.frequency,
       status: reminder.status,
       selectedDays: reminder.selectedDays,
+      userId: reminder.userId,
     );
   }
 
@@ -120,6 +128,7 @@ class ReminderLocalDataSource {
       'frequency': reminder.frequency,
       'status': reminder.status,
       'selectedDays': reminder.selectedDays.join(','),
+      'userId': reminder.userId,
     };
 
     _localReminders[index] = updatedReminder;

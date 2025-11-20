@@ -21,7 +21,7 @@ class ReminderDetailDialog extends StatelessWidget {
     final bool isWeekly = reminder.frequency.toLowerCase() == "semanal";
 
     return AlertDialog(
-      backgroundColor: Colors.white,
+        backgroundColor: Color(0xffD9D9D9),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20),
         side: const BorderSide(

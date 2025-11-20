@@ -10,8 +10,21 @@ import 'package:reminder_assistant/presentation/widgets/login/logout_alert_dialo
 import 'package:reminder_assistant/providers/auth_provider.dart';
 import 'package:reminder_assistant/providers/reminder_provider.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      context.read<ReminderProvider>().fetchReminders();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -131,11 +144,13 @@ class HomeScreen extends StatelessWidget {
 
         if (shouldLogOut) {
           await authProvider.signOut();
+          reminderProvider.clearReminders();
           context.go('/login');
         }
         return false;
       },
       child: Scaffold(
+        backgroundColor: Color(0xffD9D9D9),
         body: SafeArea(
           child: Column(
             children: [

@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:provider/provider.dart';
+import 'package:reminder_assistant/domain/entities/user/user.dart' as app_user;
+import 'package:reminder_assistant/domain/use_cases/user/user_use_case.dart';
 import 'package:reminder_assistant/presentation/widgets/login/login_button.dart';
 import 'package:reminder_assistant/providers/auth_provider.dart';
+import 'package:reminder_assistant/providers/reminder_provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -14,7 +17,7 @@ class LoginScreen extends StatelessWidget {
     Future<UserCredential?> signInWithGoogle() async {
       try {
         final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-        if (googleUser == null) return null; 
+        if (googleUser == null) return null;
         final GoogleSignInAuthentication googleAuth =
             await googleUser.authentication;
 
@@ -37,7 +40,25 @@ class LoginScreen extends StatelessWidget {
         final result = await signInWithGoogle();
 
         if (result != null) {
+          final userUseCase = context.read<UserUseCase>();
+          final fbUser = result.user;
+
+          if (fbUser != null) {
+            final user = app_user.User(
+              id: fbUser.uid,
+              name: fbUser.displayName ?? '',
+              email: fbUser.email ?? '',
+            );
+
+            try {
+              await userUseCase.createUser(user);
+            } catch (e) {
+              print("Error saving user to Firestore: $e");
+            }
+          }
+
           await context.read<AuthenticationProvider>().checkAuthStatus();
+          await context.read<ReminderProvider>().fetchReminders();
           context.go('/home');
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -72,6 +93,7 @@ class LoginScreen extends StatelessWidget {
     }
 
     return Scaffold(
+      backgroundColor: Color(0xffD9D9D9),
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,

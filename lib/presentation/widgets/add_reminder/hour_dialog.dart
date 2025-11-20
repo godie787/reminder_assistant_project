@@ -20,6 +20,7 @@ class HourDialog extends StatelessWidget {
     DateTime initialTime = DateTime(0, 0, 0, hour, minute);
 
     return AlertDialog(
+      backgroundColor: Color(0xffD9D9D9),
       title: Center(
         child: Text(
           "Selecciona la hora",
@@ -31,7 +32,7 @@ class HourDialog extends StatelessWidget {
         height: 300,
         child: TimePickerSpinner(
           is24HourMode: true,
-          time: initialTime, 
+          time: initialTime,
           onTimeChange: (time) {
             hourAction(time);
           },
