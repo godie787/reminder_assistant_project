@@ -2,7 +2,9 @@
 
 Aplicación móvil desarrollada en Flutter para la gestión de recordatorios personalizados con notificaciones programadas.
 
-## 📚 Librerías Principales
+Enlace a Demo y apk: https://drive.google.com/drive/folders/1BC7Cx-nyLgf3K76IdnaIoNJKKw2j6l2u?usp=drive_link
+
+## Librerías Principales
 
 - **firebase_core** & **firebase_auth**: Autenticación de usuarios
 - **google_sign_in**: Inicio de sesión con Google
@@ -14,7 +16,7 @@ Aplicación móvil desarrollada en Flutter para la gestión de recordatorios per
 - **intl**: Internacionalización y formato de fechas
 - **flutter_datetime_picker** & **time_picker_spinner**: Selectores de fecha y hora
 
-## 🏗️ Arquitectura y Módulos
+## Arquitectura y Módulos
 
 ### Arquitectura Limpia (Clean Architecture)
 El proyecto implementa una arquitectura en capas:
@@ -35,36 +37,22 @@ El proyecto implementa una arquitectura en capas:
 - **Services**: Servicios auxiliares
   - Gestión de permisos de notificaciones
 
-## 🔥 Integraciones Firebase
+## Integraciones Firebase
 
 ### Firebase Authentication
 - Autenticación de usuarios con email y contraseña
 - Inicio de sesión con Google Sign-In
 - Gestión de sesiones de usuario
 
-### Cloud Firestore
-- Almacenamiento de recordatorios en tiempo real
-- Sincronización automática de datos
-- Consultas y actualizaciones en tiempo real
 
-## 🔔 Sistema de Notificaciones
+## Sistema de Notificaciones
 
 - Notificaciones locales programadas
 - Configuración de zonas horarias
-- Recordatorios recurrentes (diario, semanal, mensual, anual)
+- Recordatorios recurrentes (diario, semanal)
 - Gestión de permisos de notificaciones
 
-## ⚙️ Configuración
-
-El proyecto incluye configuración para múltiples plataformas:
-- Android
-- iOS
-- Web
-- Windows
-- Linux
-- macOS
-
-## 💭 Reflexión Personal
+## Reflexión Personal
 
 Este proyecto fue un desafío significativo que me permitió profundizar en conceptos avanzados de Flutter y Firebase. La implementación de notificaciones locales con manejo de zonas horarias, junto con la integración de Firebase Authentication y Firestore, representó un reto técnico importante. Aplicar Clean Architecture me ayudó a mantener un código organizado y escalable, aunque requirió una planificación cuidadosa desde el inicio.
 
